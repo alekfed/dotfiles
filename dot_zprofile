@@ -1,0 +1,8 @@
+export PATH="$HOME/.poetry/bin:$PATH"
+
+if [ ! -z $(command -v sway) ]; then
+    # If running from tty1 start sway
+    if [ "$(tty)" = "/dev/tty1" ]; then
+    	exec sway
+    fi
+fi
