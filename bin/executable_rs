@@ -1,0 +1,14 @@
+#!/bin/sh
+
+PROC=$(ps x | awk '/redsh/ && !/awk/{print $1}')
+
+if [[ -n $PROC ]]; then
+  kill $PROC
+fi
+
+if [[ $# -ne 1 ]]; then
+  exit
+fi
+
+redshift -PO $1 </dev/null &>/dev/null &!
+exit 0

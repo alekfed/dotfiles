@@ -1,0 +1,23 @@
+#!/bin/sh
+
+SETUPCFG=$(fd 'setup.cfg' $(git rev-parse --show-toplevel 2>/dev/null))
+
+if [[ -n $SETUPCFG ]]; then
+    FLAKE8CFG="--config $SETUPCFG"
+    MYPYCFG="--config-file $SETUPCFG"
+    PYLINTCFG="--rcfile=$SETUPCFG"
+fi
+
+flake8 $FLAKE8CFG \
+    --format='%(path)s:%(row)d:%(col)d: error: %(text)s [%(code)s] [flake8]' $1
+
+mypy $MYPYCFG \
+    --show-column-numbers \
+    --no-color-output \
+    --no-error-summary \
+    --show-error-codes $1 | sed 's/$/ [mypy]/'
+
+# pylint $PYLINTCFG \
+#    --load-plugins pylint_django \
+#    --msg-template='{path}:{line:}:{column}: {category}: {msg} [pylint]' \
+#    -rn -sn $1

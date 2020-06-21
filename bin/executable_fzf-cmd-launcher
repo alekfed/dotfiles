@@ -1,0 +1,8 @@
+#!/bin/dash
+
+rg -0 -li 'terminal=false' /usr/share/applications \
+  | xargs -0 mawk -F'=' '/^Exec/{sub(/ .*/,""); print $2}' \
+  | rg -v '^/' \
+  | sort -u \
+  | fzf \
+  | xargs -r swaymsg -t command exec 

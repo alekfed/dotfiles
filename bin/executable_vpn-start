@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sudo openvpn --config ~/ovconf/swe.ovpn --auth-user-pass ~/ovconf/cred-swe
