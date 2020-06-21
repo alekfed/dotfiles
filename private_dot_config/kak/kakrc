@@ -1,0 +1,222 @@
+# ===============
+# Common settings
+# ===============
+
+# Grep command
+# ------------
+set-option global grepcmd 'rg -L --hidden --with-filename --column'
+
+# Colorscheme
+# -----------
+colorscheme gruvbox
+# Remove background to enable transparency
+face global Default +g
+
+# Default tabs and indents
+# ------------------------
+set-option global tabstop 4
+set-option global indentwidth 4
+
+# Use main client as jumpclient
+# -----------------------------
+set-option global jumpclient client0
+
+# Wrapping opitons
+# ----------------
+hook global WinCreate .* %{
+  set-option buffer autowrap_column 72
+  set-option buffer formatcmd "fold -s -w %opt{autowrap_column}"
+  autowrap-enable
+}
+
+# Highlighters
+# ------------
+hook global WinCreate .* %{
+    add-highlighter buffer/colorcolumn column %opt{autowrap_column} default,rgb:404040
+    add-highlighter buffer/matching    show-matching
+    add-highlighter buffer/numbers     number-lines -relative -hlcursor
+}
+
+# ========
+# Mappings
+# ========
+
+# Copy and paste using system buffer
+# ----------------------------------
+hook global NormalKey y %{ nop %sh{
+    printf %s "$kak_main_reg_dquote" | wl-copy > /dev/null 2>&1 &
+}}
+map global user -docstring 'Paste (before) from clipboard' P '!wl-paste -n<ret>'
+map global user -docstring 'Paste (after) from clipboard' p '<a-!>wl-paste -n<ret>'
+
+# Comment out lines
+# -----------------
+map global normal '#' :comment-line<ret> -docstring 'Comment line'
+map global normal '<a-#>' :comment-block<ret> -docstring 'Comment block'
+
+# Git
+# ---
+declare-user-mode git
+map global user g ': enter-user-mode git<ret>' -docstring 'Git'
+map global git a ": git add<ret>" -docstring "Add"
+map global git b ": git blame<ret>" -docstring "Blame"
+map global git c ": git commit<ret>" -docstring "Commit"
+map global git d ": git diff<ret>" -docstring "Diff"
+map global git t ": repl tig<ret>" -docstring "tig"
+map global git l ": git log<ret>" -docstring "Log"
+map global git s ": git status<ret>" -docstring "Status"
+map global git p ": terminal sh -c 'git push || read'<ret>" -docstring "Push"
+
+# Images
+# ------
+declare-user-mode images
+map global user i ': enter-user-mode images<ret>' -docstring 'Images'
+map global images o ': ' -docstring 'Open'
+map global images c ': ' -docstring 'Close'
+map global images r ': ' -docstring 'Reload'
+
+# Buffers management
+# ------------------
+# Utility commands for mappings
+define-command buf-opentools -hidden %{
+    rename-client base
+    new rename-client tools
+    set global toolsclient tools
+    focus base
+}
+
+define-command buf-opendocs -hidden %{
+    rename-client base
+    new rename-client docs
+    set global docsclient docs
+    doc changelog
+    focus base
+    execute-keys '<c-o>'
+}
+
+define-command buf-setmain -hidden %{
+    rename-client main
+    set global jumpclient main
+}
+
+declare-user-mode buffers
+map global user b ': enter-user-mode buffers<ret>' -docstring 'Buffers'
+map global buffers t ': buf-opentools<ret>' -docstring 'Open tools client'
+map global buffers d ': buf-opendocs<ret>' -docstring 'Open docs client'
+map global buffers m ': buf-setmain<ret>' -docstring 'Set current as main'
+
+# Tools
+# -----
+declare-user-mode tools
+map global user t ': enter-user-mode tools<ret>' -docstring 'Tools'
+
+declare-user-mode grep_mode
+map global tools e ': enter-user-mode grep_mode<ret>' -docstring 'Grep'
+map global grep_mode g ': grep %val{selection}<ret><c-o>,bt' -docstring 'Grep selection'
+map global grep_mode n ': grep-next-match<ret>' -docstring 'Grep - next'
+map global grep_mode p ': grep-previous-match<ret>' -docstring 'Grep - previous'
+
+declare-user-mode lint_mode
+map global tools u ': enter-user-mode lint_mode<ret>' -docstring 'Lint'
+map global lint_mode l ': lint<ret>' -docstring 'Lint buffer'
+map global lint_mode n ': lint-next-error<ret>' -docstring 'Lint - next'
+map global lint_mode p ': lint-previous-error<ret>' -docstring 'Lint - previous'
+
+# Clients
+# -------
+map global user c ': new<ret>' -docstring 'New client'
+
+# Easy motion
+# -----------
+map global user e ': enter-user-mode easymotion<ret>' -docstring 'Easymotion'
+
+# ========================
+# Language-specific config
+# ========================
+
+# Set default filetype
+# --------------------
+hook global WinSetOption filetype=plain %{
+  set-option buffer filetype ini
+}
+
+# Python
+# ------
+hook global WinSetOption filetype=python %{ try %{
+    set-option buffer lintcmd python-lint
+    lint-enable
+}}
+hook global BufWritePost .*py %{ try %{
+    lint
+}}
+
+# PlantUML
+hook global BufWritePost .*puml %{
+    nop %sh{ {
+        comp-plantuml "$kak_buffile"
+        echo "eval -client '$kak_client' 'echo image compiled'" |
+            kak -p ${kak_session}
+    } > /dev/null 2>&1 < /dev/null & }
+}
+
+# =======
+# Plugins
+# =======
+
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+
+plug "andreyorst/plug.kak" noload
+plug "occivink/kakoune-sudo-write"
+
+plug "andreyorst/fzf.kak" config %{
+    map -docstring 'fzf mode' global normal '<c-p>' ': fzf-mode<ret>'
+} defer fzf %{
+    set-option global fzf_project_use_tilda true
+    declare-option str-list fzf_exclude_dirs ".git"
+    set-option global fzf_file_command %sh{
+        eval "set -- $kak_quoted_opt_fzf_exclude_dirs"
+        while [ $# -gt 0 ]; do
+            exclude="$exclude --exclude '$1'"
+            shift
+        done
+        cmd="fd . --no-ignore --type f --follow --hidden $exclude"
+        echo "$cmd"
+    }
+    set-option global fzf_highlight_command bat
+    set-option global fzf_sk_grep_command %{${kak_opt_grepcmd}}
+}
+
+plug "andreyorst/smarttab.kak" %{
+    hook global WinCreate .* expandtab
+}
+
+plug "alexherbo2/auto-pairs.kak" %{
+    hook global WinCreate .* auto-pairs-enable
+}
+
+plug "alexherbo2/surround.kak" %{
+    map global user 's' ': surround<ret>' -docstring "Surround selection"
+    set-option global surround_begin auto-pairs-disable
+    set-option global surround_end auto-pairs-enable
+}
+
+plug "ul/kak-lsp" %{
+    ### debug cmd
+    # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
+    ###
+    define-command lsp-restart %{ lsp-stop; lsp-start }
+    hook global WinSetOption filetype=python %{
+        map window user "l" ": enter-user-mode lsp<ret>" -docstring "LSP"
+        map window lsp "n" "<esc>: lsp-find-error --include-warnings<ret>" -docstring "find next error or warning"
+        map window lsp "p" "<esc>: lsp-find-error --previous --include-warnings<ret>" -docstring "find previous error or warning"
+        lsp-enable-window
+        hook -always global KakEnd .* lsp-exit
+        lsp-auto-hover-insert-mode-disable
+    }
+#    hook global WinSetOption filetype=python %{
+#        set-option window lsp_server_configuration pyls.configurationSources=["flake8"]
+#        set-option window lsp_server_configuration pyls.plugins.pycodestyle.enabled=false
+#    }
+}
+
+plug "danr/kakoune-easymotion"
