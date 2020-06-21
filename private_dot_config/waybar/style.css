@@ -85,7 +85,7 @@ window#waybar.chromium {
 }
 
 #battery.charging {
-    color: #689d6a;
+    color: #8ec07c;
 }
 
 #battery.critical:not(.charging) {
