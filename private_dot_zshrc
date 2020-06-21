@@ -15,7 +15,6 @@ compinit
 autoload -U select-word-style
 select-word-style bash
 
-eval "$(fasd --init auto)"
 eval "$(starship init zsh)"
 
 source /usr/share/fzf/key-bindings.zsh
@@ -64,10 +63,8 @@ zinit wait lucid for \
         zsh-users/zsh-completions \
     atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
-    andrewferrier/fzf-z \
     davidparsson/zsh-pyenv-lazy \
-    wfxr/forgit
-
-export FZFZ_RECENT_DIRS_TOOL=fasd
+    wfxr/forgit \
+    skywind3000/z.lua
 
 #############
