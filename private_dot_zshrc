@@ -65,7 +65,8 @@ zinit wait lucid for \
     atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     andrewferrier/fzf-z \
-    davidparsson/zsh-pyenv-lazy
+    davidparsson/zsh-pyenv-lazy \
+    wfxr/forgit
 
 export FZFZ_RECENT_DIRS_TOOL=fasd
 
