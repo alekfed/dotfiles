@@ -1,4 +1,3 @@
-export PATH="$HOME/.poetry/bin:$PATH"
 export XDG_SESSION_TYPE="wayland"
 
 if [ ! -z $(command -v sway) ]; then
