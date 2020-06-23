@@ -37,6 +37,10 @@ hook global WinCreate .* %{
     add-highlighter buffer/numbers     number-lines -relative -hlcursor
 }
 
+# Disable assistant
+# -----------------
+set-option global ui_options ncurses_assistant=none
+
 # ========
 # Mappings
 # ========
