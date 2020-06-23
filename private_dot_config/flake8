@@ -39,7 +39,8 @@ ignore =
     E704,  # multiple statements on one line (def)
     W503,  # line break before binary operator
     W504,  # line break after binary operator
-    W505   # line too long
+    W505,  # line too long
+    SC200  # possibly misspelt word
 
 
 [mypy]
