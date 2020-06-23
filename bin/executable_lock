@@ -1,0 +1,5 @@
+#!/bin/sh
+
+grim -t jpeg /tmp/screenshot.jpg
+convert /tmp/screenshot.jpg -blur 0x3 /tmp/screenshot.jpg
+swaylock -f -i /tmp/screenshot.jpg
