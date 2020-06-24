@@ -26,7 +26,6 @@ set-option global jumpclient client0
 hook global WinCreate .* %{
   set-option buffer autowrap_column 72
   set-option buffer formatcmd "fold -s -w %opt{autowrap_column}"
-  autowrap-enable
 }
 
 # Highlighters
@@ -192,10 +191,6 @@ plug "andreyorst/fzf.kak" config %{
 
 plug "andreyorst/smarttab.kak" %{
     hook global WinCreate .* expandtab
-}
-
-plug "alexherbo2/auto-pairs.kak" %{
-    hook global WinCreate .* auto-pairs-enable
 }
 
 plug "alexherbo2/surround.kak" %{
