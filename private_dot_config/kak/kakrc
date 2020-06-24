@@ -34,7 +34,11 @@ hook global WinCreate .* %{
     add-highlighter buffer/colorcolumn column %opt{autowrap_column} default,rgb:404040
     add-highlighter buffer/matching    show-matching
     add-highlighter buffer/numbers     number-lines -relative -hlcursor
+
+    remove-highlighter window/git-blame
+    add-highlighter window/git-blame flag-lines Default git_blame_flags
 }
+# set-face global Information Default
 
 # Disable assistant
 # -----------------
