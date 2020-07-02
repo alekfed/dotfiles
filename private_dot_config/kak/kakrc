@@ -34,15 +34,22 @@ hook global WinCreate .* %{
     add-highlighter buffer/colorcolumn column %opt{autowrap_column} default,rgb:404040
     add-highlighter buffer/matching    show-matching
     add-highlighter buffer/numbers     number-lines -relative -hlcursor
-
-    remove-highlighter window/git-blame
-    add-highlighter window/git-blame flag-lines Default git_blame_flags
 }
 # set-face global Information Default
 
 # Disable assistant
 # -----------------
 set-option global ui_options ncurses_assistant=none
+
+# ========
+# Commands
+# ========
+
+define-command -hidden gb-wrapper %{
+    remove-highlighter window/git-blame
+    add-highlighter window/git-blame flag-lines Default git_blame_flags
+    git blame
+}
 
 # ========
 # Mappings
@@ -66,7 +73,7 @@ map global normal '<a-#>' :comment-block<ret> -docstring 'Comment block'
 declare-user-mode git
 map global user g ': enter-user-mode git<ret>' -docstring 'Git'
 map global git a ": git add<ret>" -docstring "Add"
-map global git b ": git blame<ret>" -docstring "Blame"
+map global git b ": gb-wrapper<ret>" -docstring "Blame"
 map global git h ": git hide-blame<ret>" -docstring "Hide Blame"
 map global git c ": git commit<ret>" -docstring "Commit"
 map global git d ": git diff<ret>" -docstring "Diff"
