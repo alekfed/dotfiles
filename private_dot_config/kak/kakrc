@@ -67,9 +67,9 @@ declare-user-mode git
 map global user g ': enter-user-mode git<ret>' -docstring 'Git'
 map global git a ": git add<ret>" -docstring "Add"
 map global git b ": git blame<ret>" -docstring "Blame"
+map global git h ": git hide-blame<ret>" -docstring "Hide Blame"
 map global git c ": git commit<ret>" -docstring "Commit"
 map global git d ": git diff<ret>" -docstring "Diff"
-map global git t ": repl tig<ret>" -docstring "tig"
 map global git l ": git log<ret>" -docstring "Log"
 map global git s ": git status<ret>" -docstring "Status"
 map global git p ": terminal sh -c 'git push || read'<ret>" -docstring "Push"
