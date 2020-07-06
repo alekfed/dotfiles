@@ -265,9 +265,9 @@ font pango:SauceCodePro Nerd Font Mono Medium 8
 # Laptop bindings
 bindsym XF86MonBrightnessUp exec brightnessctl -e s +2%
 bindsym XF86MonBrightnessDown exec brightnessctl -e s 2%-
-bindsym XF86AudioLowerVolume exec sh -c "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"
-bindsym XF86AudioRaiseVolume exec sh -c "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%"
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+bindsym XF86AudioLowerVolume exec volume-decrease
+bindsym XF86AudioRaiseVolume exec volume-increase
+bindsym XF86AudioMute exec volume-mute
 
 # rofi-like program launcher
 bindsym $mod+d exec kitty --class "fzfmenu" -e ~/bin/fzf-cmd-launcher
