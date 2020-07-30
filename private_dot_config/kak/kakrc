@@ -25,7 +25,7 @@ set-option global jumpclient client0
 # ----------------
 hook global WinCreate .* %{
   set-option buffer autowrap_column 72
-  set-option buffer formatcmd "fold -s -w %opt{autowrap_column}"
+  set-option buffer formatcmd "par %opt{autowrap_column}"
 }
 
 # Highlighters
@@ -67,6 +67,9 @@ map global user -docstring 'Paste (after) from clipboard' p '<a-!>wl-paste -n<re
 # -----------------
 map global normal '#' :comment-line<ret> -docstring 'Comment line'
 map global normal '<a-#>' :comment-block<ret> -docstring 'Comment block'
+
+# Format
+map global normal '=' :format-selections<ret> -docstring 'Format'
 
 # Git
 # ---
