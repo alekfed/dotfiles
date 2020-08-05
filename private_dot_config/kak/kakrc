@@ -175,6 +175,11 @@ hook global BufWritePost .*puml %{
     } > /dev/null 2>&1 < /dev/null & }
 }
 
+# GraphQL
+hook global BufCreate .*[.](graphql) %{
+    set-option buffer filetype elm
+}
+
 # =======
 # Plugins
 # =======
@@ -217,7 +222,7 @@ plug "ul/kak-lsp" %{
     # set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
     ###
     define-command lsp-restart %{ lsp-stop; lsp-start }
-    hook global WinSetOption filetype=python %{
+hook global WinSetOption filetype=python %{
         map window user "l" ": enter-user-mode lsp<ret>" -docstring "LSP"
         map window lsp "n" "<esc>: lsp-find-error --include-warnings<ret>" -docstring "find next error or warning"
         map window lsp "p" "<esc>: lsp-find-error --previous --include-warnings<ret>" -docstring "find previous error or warning"
