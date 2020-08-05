@@ -161,7 +161,6 @@ hook global WinSetOption filetype=plain %{
 # ------
 hook global WinSetOption filetype=python %{ try %{
     set-option buffer lintcmd python-lint
-    lint-enable
 }}
 hook global BufWritePost .*py %{ try %{
     lint
