@@ -40,6 +40,7 @@ ignore =
     W503,  # line break before binary operator
     W504,  # line break after binary operator
     W505,  # line too long
+    SC100, # possibly misspelt word
     SC200  # possibly misspelt word
 
 
