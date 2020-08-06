@@ -10,7 +10,7 @@ set-option global grepcmd 'rg -L --hidden --with-filename --column'
 # -----------
 colorscheme gruvbox
 # Remove background to enable transparency
-face global Default +g
+# face global Default rgb:ebdbb2,default
 
 # Default tabs and indents
 # ------------------------
@@ -136,8 +136,8 @@ map global grep_mode p ': grep-previous-match<ret>' -docstring 'Grep - previous'
 declare-user-mode lint_mode
 map global tools u ': enter-user-mode lint_mode<ret>' -docstring 'Lint'
 map global lint_mode l ': lint<ret>' -docstring 'Lint buffer'
-map global lint_mode n ': lint-next-error<ret>' -docstring 'Lint - next'
-map global lint_mode p ': lint-previous-error<ret>' -docstring 'Lint - previous'
+map global lint_mode n ': lint-next-message<ret>' -docstring 'Lint - next'
+map global lint_mode p ': lint-previous-message<ret>' -docstring 'Lint - previous'
 
 # Clients
 # -------
