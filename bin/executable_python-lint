@@ -11,7 +11,7 @@ fi
 flake8 $FLAKE8CFG \
     --format='%(path)s:%(row)d:%(col)d: error: %(text)s [%(code)s] [flake8]' $1
 
-mypy $MYPYCFG \
+/usr/bin/mypy $MYPYCFG \
     --show-column-numbers \
     --no-color-output \
     --no-error-summary \
