@@ -17,6 +17,11 @@ colorscheme gruvbox
 set-option global tabstop 4
 set-option global indentwidth 4
 
+# Simulate Vim's expandtab
+hook global BufCreate .* %{
+    hook buffer InsertChar \t %{ exec -draft h@ }
+}
+
 # Use main client as jumpclient
 # -----------------------------
 set-option global jumpclient client0
@@ -24,8 +29,8 @@ set-option global jumpclient client0
 # Wrapping opitons
 # ----------------
 hook global WinCreate .* %{
-  set-option buffer autowrap_column 72
-  set-option buffer formatcmd "par %opt{autowrap_column}"
+    set-option buffer autowrap_column 72
+    set-option buffer formatcmd "par %opt{autowrap_column}"
 }
 
 # Highlighters
@@ -207,9 +212,9 @@ plug "andreyorst/fzf.kak" config %{
     set-option global fzf_sk_grep_command %{${kak_opt_grepcmd}}
 }
 
-plug "andreyorst/smarttab.kak" %{
-    hook global WinCreate .* expandtab
-}
+# plug "andreyorst/smarttab.kak" %{
+#     hook global WinCreate .* expandtab
+# }
 
 plug "alexherbo2/surround.kak" %{
     map global user 's' ': enter-user-mode surround<ret>' -docstring "Surround selection"
