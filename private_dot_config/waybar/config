@@ -5,7 +5,20 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     //"modules-center": ["sway/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "temperature", "disk", "backlight", "battery#bat0", "battery#bat1", "clock", "tray"],
+    "modules-right": [
+        "pulseaudio",
+        "network",
+        "cpu",
+        "memory",
+        "temperature",
+        "disk",
+        "backlight",
+        "battery#bat0",
+        "battery#bat1",
+        "clock",
+        "custom/keyboard_layout",
+        "tray"
+    ],
     // Modules configuration
     "sway/workspaces": {
         "format": "{icon}",
@@ -110,5 +123,10 @@
     },
     "disk": {
         "format": "{percentage_used}% "
+    },
+    "custom/keyboard_layout": {
+        "format": "{} ",
+        "exec": "$HOME/bin/get_keyboard_layout",
+        "tooltip": false
     }
 }
