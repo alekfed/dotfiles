@@ -191,7 +191,7 @@ hook global BufCreate .*[.](graphql) %{
 
 source "%val{config}/plugins/plug.kak/rc/plug.kak"
 
-plug "andreyorst/plug.kak" noload
+plug "robertmeta/plug.kak" noload
 plug "occivink/kakoune-sudo-write"
 
 plug "andreyorst/fzf.kak" config %{
