@@ -281,3 +281,6 @@ for_window [app_id="mpv"] move container to workspace $ws5, focus
 
 # Hide cursor on inactivity
 seat * hide_cursor 1000
+
+# Start JACK
+exec --no-startup-id jackd -d alsa
