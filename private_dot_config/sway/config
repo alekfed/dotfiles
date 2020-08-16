@@ -251,7 +251,7 @@ titlebar_border_thickness 0
 titlebar_padding 5 2
 
 # Transparent unfocused windows
-exec --no-startup-id python /usr/share/sway/scripts/inactive-windows-transparency.py
+exec python /usr/share/sway/scripts/inactive-windows-transparency.py
 
 # Border color
 client.focused #d3869b #b16286 #282828 #d3869b #b16286
@@ -283,4 +283,4 @@ for_window [app_id="mpv"] move container to workspace $ws5, focus
 seat * hide_cursor 1000
 
 # Start JACK
-exec --no-startup-id jackd -d alsa
+exec jackd -d alsa
