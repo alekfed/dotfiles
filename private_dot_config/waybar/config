@@ -6,7 +6,7 @@
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     //"modules-center": ["sway/window"],
     "modules-right": [
-        "pulseaudio",
+        "custom/alsa",
         "network",
         "cpu",
         "memory",
@@ -104,29 +104,18 @@
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
-    "pulseaudio": {
-        // "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol"
-    },
     "disk": {
         "format": "{percentage_used}% "
     },
     "custom/keyboard_layout": {
         "format": "{} ",
         "exec": "$HOME/bin/get_keyboard_layout",
+        "tooltip": false
+    },
+    "custom/alsa": {
+        "exec": "amixer get Master | sed -nre 's/.*\\[off\\].*//p; s/.*\\[(.*%)\\].*/\\1 /p'",
+        "signal": 11,
+        "interval": 1,
         "tooltip": false
     }
 }

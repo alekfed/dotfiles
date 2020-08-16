@@ -78,6 +78,7 @@ window#waybar.chromium {
 #tray,
 #mode,
 #idle_inhibitor,
+#custom-alsa,
 #mpd {
     padding: 0 4px;
     margin: 0 4px;
