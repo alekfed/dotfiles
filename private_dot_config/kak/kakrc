@@ -97,6 +97,10 @@ map global images o ': ' -docstring 'Open'
 map global images c ': ' -docstring 'Close'
 map global images r ': ' -docstring 'Reload'
 
+# REPL
+# ----
+map global normal <a-ret> ': send-text<ret>'
+
 # Buffers management
 # ------------------
 # Utility commands for mappings
@@ -218,8 +222,8 @@ plug "andreyorst/fzf.kak" config %{
 
 plug "alexherbo2/surround.kak" %{
     map global user 's' ': enter-user-mode surround<ret>' -docstring "Surround selection"
-    set-option global surround_begin auto-pairs-disable
-    set-option global surround_end auto-pairs-enable
+    # set-option global surround_begin auto-pairs-disable
+    # set-option global surround_end auto-pairs-enable
 }
 
 plug "ul/kak-lsp" %{
