@@ -10,7 +10,8 @@ set-option global grepcmd 'rg -L --hidden --with-filename --column'
 # -----------
 colorscheme gruvbox
 # Remove background to enable transparency
-# face global Default rgb:ebdbb2,default
+face global Default default,default
+face global BufferPadding blue,default
 
 # Default tabs and indents
 # ------------------------
