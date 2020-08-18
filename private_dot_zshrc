@@ -31,7 +31,7 @@ alias pacman="pacman --color=always"
 alias ssh="TERM=xterm-256color ssh"
 alias e="exa -l -schanged --color=always"
 alias ch="chezmoi"
-alias mpv_sort="find . -not -name '*srt' -exec echo \'{}\' \; | sort -V | xargs mpv"
+alias mpv_sort="find . -type f -not -name '*srt' -exec echo \'{}\' \; | sort -V | xargs mpv"
 
 stty -ixon
 
