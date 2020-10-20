@@ -1,4 +1,5 @@
-export XDG_SESSION_TYPE="wayland"
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_TYPE=wayland
 
 if [ ! -z $(command -v sway) ]; then
     # If running from tty1 start sway
