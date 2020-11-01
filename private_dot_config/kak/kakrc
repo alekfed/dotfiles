@@ -15,13 +15,12 @@ face global BufferPadding blue,default
 
 # Default tabs and indents
 # ------------------------
+set-option global tabstop 2
+set-option global indentwidth 2
+
 hook global WinSetOption filetype=python %{
     set-option global tabstop 4
     set-option global indentwidth 4
-}
-hook global WinSetOption filetype=terraform %{
-    set-option global tabstop 2
-    set-option global indentwidth 2
 }
 
 # Simulate Vim's expandtab
@@ -253,3 +252,29 @@ hook global WinSetOption filetype=python %{
 }
 
 plug "danr/kakoune-easymotion"
+
+plug "eraserhd/parinfer-rust" do %{
+    cargo install --force --path .
+    cargo clean
+} config %{
+    hook global WinSetOption filetype=(clojure|lisp|scheme|racket) %{
+        parinfer-enable-window -smart
+    }
+}
+
+# Collaborative editing (experimental)
+declare-option range-specs client_ranges
+define-command update_client_ranges %{
+    evaluate-commands set buffer client_ranges %val{timestamp} %sh{
+        for sel in $kak_selections_desc
+        do printf '%s|default,cyan ' "$sel"
+        done
+    }
+}
+define-command export_client_ranges %{
+    hook window NormalIdle .* %{ update_client_ranges }
+    hook window InsertIdle .* %{ update_client_ranges }
+}
+define-command display_client_ranges %{
+    add-highlighter window/ ranges client_ranges
+}
