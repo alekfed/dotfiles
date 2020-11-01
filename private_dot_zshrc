@@ -21,9 +21,11 @@ source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
 export EDITOR=kak
+export KAKOUNE_POSIX_SHELL=/bin/dash
 
 [ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 
 [[ -e ~/.work.aliases ]] && source ~/.work.aliases
 
